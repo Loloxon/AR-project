@@ -2,12 +2,13 @@ import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from os import getenv
 
 
 df = pd.read_csv(sys.argv[1], header=None)
 
-x = np.linspace(0, 1, 21) # This 21 need to be same as 'SIDE_LENGTH' minus 2 from .c file
-y = np.linspace(0, 1, 21) # This 21 need to be same as 'SIDE_LENGTH' minus 2 from .c file
+x = np.linspace(0, 1, int(getenv("SIDE_LENGTH")) - 2)
+y = np.linspace(0, 1, int(getenv("SIDE_LENGTH")) - 2)
 X, Y = np.meshgrid(x, y)
 
 plt.figure(figsize=(8, 6))
