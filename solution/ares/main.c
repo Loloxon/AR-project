@@ -5,6 +5,20 @@
 
 #define IS_ROOT (world_rank == 0)
 
+void save_time(double execution_time, int tasks) {
+    char filename[16];
+    sprintf(filename, "t%d.txt", tasks);
+
+    FILE *file = fopen(filename, "w");
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+    
+    fprintf(file, "%f\n", execution_time);
+    fclose(file);
+}
+
 int main(int argc, char *argv[])
 {
     MPI_Init(&argc, &argv);
@@ -257,6 +271,9 @@ int main(int argc, char *argv[])
     }
     /*** GATHER RESULTS FROM ALL NODES TO ROOT ***/
     
+    MPI_Barrier(MPI_COMM_WORLD);
+    double timer_end = MPI_Wtime();
+
     /*** SAVE RESULTS (WITHOUT EDGES) AS CSV ***/
     if (IS_ROOT)
     {
@@ -268,6 +285,9 @@ int main(int argc, char *argv[])
             }
             printf("%.5f\n", membrane[SIDE_LENGTH * row + SIDE_LENGTH - 1]);
         }
+
+        double execution_time = timer_end - timer_start;
+        save_time(execution_time, world_size);
     }
     /*** SAVE RESULTS (WITHOUT EDGES) AS CSV ***/
     
