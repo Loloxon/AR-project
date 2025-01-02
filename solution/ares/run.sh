@@ -8,7 +8,7 @@
 #SBATCH --output=out.csv
 #SBATCH --error=out.err
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=12
+#SBATCH --ntasks-per-node=1
 
 module load openmpi
 module load python
@@ -21,9 +21,8 @@ pip install -q seaborn
 pip install -q imageio
 pip install -q tqdm
 
-# TODO: tutaj sobie ustawcie swoją ścieżkę:
 export P="$HOME/ar/AR-project/solution/ares"
 
 mpicc -lm -ldl -o "$P/main" "$P/main.c" -D SIDE_LENGTH=23 -D ITERATIONS=650
-mpiexec -np 12 "$P/main"
+mpiexec -np "$SLURM_NTASKS_PER_NODE" "$P/main"
 python "$P/heatmap.py"  "$P/out.csv"
