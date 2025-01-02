@@ -12,7 +12,7 @@ y = np.linspace(0, 1, int(getenv("SIDE_LENGTH")) - 2)
 X, Y = np.meshgrid(x, y)
 
 plt.figure(figsize=(8, 6))
-levels = np.linspace(0.0, 0.4, 51)
+levels = np.linspace(0.0, 0.5, 51)
 plt.contourf(X, Y, df, levels=levels, cmap='viridis')
 plt.colorbar(label='u')
 plt.xlabel('x')
