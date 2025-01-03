@@ -7,6 +7,7 @@ def get_E(S_P, P): return S_P / P
 def get_f(S_P, P): return (1/S_P - 1/P) / (1 - 1/P)
 
 def main():
+    # paste execution times here in order starting from 1 task
     t = [
         24.871830,
         14.341179,
@@ -22,6 +23,7 @@ def main():
         5.713260,
     ]
     s = [get_S(t[0], t[i]) for i in range(len(t))]
+    # max tasks here
     p = [i+1 for i in range(12)]
     e = [get_E(s[i], p[i]) for i in range(len(t))]
     f = [1] + [get_f(s[i], p[i]) for i in range(1,len(t))]
